@@ -1,12 +1,22 @@
-import { createEffect, sample } from 'effector';
+/**
+ * External dependencies
+ */
 import $ from 'jquery';
+import { createEffect, sample } from 'effector';
+
+/**
+ * Internal dependencies
+ */
 import { addNotice } from '../components/Notifications';
+
+/* global ajaxurl, MODERN_SETTINGS */
+/* @see https://developer.wordpress.org/reference/functions/wp_ajax/ */
 
 export const backendRequest = createEffect(async ({ action, data }) => {
 	try {
 		const response = await $.ajax({
-			type: 'POST',
 			url: ajaxurl,
+			type: 'POST',
 			data: {
 				action,
 				...data,
@@ -19,16 +29,16 @@ export const backendRequest = createEffect(async ({ action, data }) => {
 		}
 
 		return response.data;
-	} catch (err) {
-		throw new Error(err.message);
+	} catch (error) {
+		throw new Error(error.message);
 	}
 });
 
 sample({
 	clock: backendRequest.failData,
-	fn: (data) => ({
+	fn: (error) => ({
 		status: 'error',
-		content: data?.message ?? data ?? 'Error',
+		content: error?.message ?? error ?? 'Error',
 	}),
 	target: addNotice,
 });

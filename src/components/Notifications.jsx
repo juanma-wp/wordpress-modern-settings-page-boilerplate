@@ -1,8 +1,18 @@
+/**
+ * WordPress dependencies
+ */
 import { SnackbarList } from '@wordpress/components';
+
+/**
+ * External dependencies
+ */
+import { createEvent, createStore } from 'effector';
 import { useStore } from 'effector-react';
 import { createPortal } from 'react-dom';
 
-import { createEvent, createStore } from 'effector';
+/**
+ * Internal dependencies
+ */
 import { nextId } from '../utils/nextId';
 
 export const $notifications = createStore([]);
@@ -24,6 +34,7 @@ $notifications.on(removeNotice, (notifications, id) =>
 export const Notifications = () => {
 	return createPortal(<NotificationsBody />, document.body);
 };
+
 export const NotificationsBody = () => {
 	const notifications = useStore($notifications);
 

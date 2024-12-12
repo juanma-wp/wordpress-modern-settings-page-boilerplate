@@ -1,11 +1,24 @@
+/**
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
+
+/**
+ * External dependencies
+ */
 import { combine, createEffect, createEvent, createStore, sample } from 'effector';
 import produce from 'immer';
-import { backendRequest } from '../../../utils/backendRequest';
-import { nextId } from '../../../utils/nextId';
-import { addNotice } from '../../Notifications';
 
-let initialFormData = MODERN_SETTINGS['repeated_form'] ?? {};
+/**
+ * Internal dependencies
+ */
+import { backendRequest } from '../../../utils/backendRequest';
+import { addNotice } from '../../Notifications';
+import { nextId } from '../../../utils/nextId';
+
+/* global MODERN_SETTINGS */
+
+const initialFormData = MODERN_SETTINGS.repeated_form ?? {};
 
 export const nameChanged = createEvent();
 export const resetForm = createEvent();
@@ -17,7 +30,7 @@ export const changeItem = createEvent();
 export const $name = createStore(initialFormData.name ?? '');
 export const $items = createStore(initialFormData.items ?? []);
 
-$name.on(nameChanged, (_, v) => v).reset(resetForm);
+$name.on(nameChanged, (_, value) => value).reset(resetForm);
 
 $items
 	.on(addItem, (items) => [
@@ -26,27 +39,32 @@ $items
 			id: nextId(),
 		},
 	])
-	.on(resetItem, (s, id) =>
-		produce(s, (items) => {
-			const item = items.find((item) => item.id === id);
+	.on(resetItem, (state, id) =>
+		produce(state, (draft) => {
+			const foundItem = draft.find((item) => item.id === id);
+			if (!foundItem) {
+				return draft;
+			}
 
-			item.title = '';
-			item.description = '';
-			item.priority = '';
+			foundItem.title = '';
+			foundItem.description = '';
+			foundItem.priority = '';
 
-			return items;
+			return draft;
 		})
 	)
-	.on(changeItem, (s, [id, key, value]) =>
-		produce(s, (items) => {
-			const item = items.find((item) => item.id === id);
-
-			if (item) item[key] = value;
-
-			return items;
+	.on(changeItem, (state, [id, key, value]) =>
+		produce(state, (draft) => {
+			const foundItem = draft.find((item) => item.id === id);
+			if (foundItem) {
+				foundItem[key] = value;
+			}
+			return draft;
 		})
 	)
-	.on(removeItem, (s, id) => produce(s, (items) => items.filter((item) => item.id !== id)))
+	.on(removeItem, (state, id) =>
+		produce(state, (draft) => draft.filter((item) => item.id !== id))
+	)
 	.reset(resetForm);
 
 export const saveToServer = createEffect(({ name, items }) =>
@@ -66,6 +84,7 @@ sample({
 	})),
 	target: saveToServer,
 });
+
 sample({
 	clock: saveToServer.done,
 	fn: () => ({ content: __('Repeated Form Saved.', 'wp-modern-settings-page-boilerplate') }),

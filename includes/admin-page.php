@@ -1,4 +1,13 @@
 <?php
+/**
+ * Admin page functionality for Modern Settings Page Boilerplate.
+ *
+ * This file handles the WordPress admin page setup and rendering for the Modern Settings
+ * page. It includes menu registration, asset loading, and various admin UI customizations.
+ *
+ * @package ModernSettingsPageBoilerplate
+ * @since 0.0.1
+ */
 
 namespace ModernSettingsPageBoilerplate;
 

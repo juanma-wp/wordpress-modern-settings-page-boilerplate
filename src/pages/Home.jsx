@@ -1,3 +1,6 @@
+/**
+ * WordPress dependencies
+ */
 import {
 	Button,
 	Card,
@@ -15,8 +18,15 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
+/**
+ * External dependencies
+ */
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+
+/**
+ * Internal dependencies
+ */
 import { ClosableNotice } from '../components/ClosableNotice';
 import readMe from './../../README.md';
 
@@ -44,7 +54,11 @@ export const Home = () => {
 								'wp-modern-settings-page-boilerplate'
 							)}
 						</span>
-						<a href="https://wordpress.github.io/gutenberg/" target="_blank">
+						<a
+							href="https://wordpress.github.io/gutenberg/"
+							target="_blank"
+							rel="noreferrer"
+						>
 							https://wordpress.github.io/gutenberg/
 						</a>
 					</p>
@@ -69,11 +83,9 @@ export const Home = () => {
 					</Heading>
 				</CardHeader>
 				<CardBody>
-					<ReactMarkdown
-						className="reset-styles"
-						children={readMe}
-						remarkPlugins={[remarkGfm]}
-					/>
+					<ReactMarkdown className="reset-styles" remarkPlugins={[remarkGfm]}>
+						{readMe}
+					</ReactMarkdown>
 				</CardBody>
 			</Card>
 			<Spacer marginBottom={10} />
@@ -87,23 +99,14 @@ export const Home = () => {
 					</Heading>
 				</CardHeader>
 				<CardBody>
-					<Text highlightWords={['con']}>
-						{__(
-							`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis dictum
-						tortor, eu tincidunt justo scelerisque tincidunt. Duis semper dui id augue
-						malesuada, ut feugiat nisi aliquam. Vestibulum venenatis diam sem, finibus
-						dictum massa semper in. Nulla facilisi. Nunc vulputate faucibus diam, in
-						lobortis arcu ornare vel. In dignissim nunc sed facilisis finibus. Etiam
-						imperdiet mattis arcu, sed rutrum sapien blandit gravida. Aenean
-						sollicitudin neque eget enim blandit, sit amet rutrum leo vehicula. Nunc
-						malesuada ultricies eros ut faucibus. Aliquam erat volutpat. Nulla nec
-						feugiat risus. Vivamus iaculis dui aliquet ante ultricies feugiat.
-						Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
-						cubilia curae; Vivamus nec pretium velit, sit amet consectetur ante.
-						Praesent porttitor ex eget fermentum mattis.`,
-							'wp-modern-settings-page-boilerplate'
-						)}
-					</Text>
+					<CardBody>
+						<Text highlightWords={['con']}>
+							{__(
+								'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis dictum tortor, eu tincidunt justo scelerisque tincidunt. Duis semper dui id augue malesuada, ut feugiat nisi aliquam. Vestibulum venenatis diam sem, finibus dictum massa semper in. Nulla facilisi. Nunc vulputate faucibus diam, in lobortis arcu ornare vel. In dignissim nunc sed facilisis finibus. Etiam imperdiet mattis arcu, sed rutrum sapien blandit gravida. Aenean sollicitudin neque eget enim blandit, sit amet rutrum leo vehicula. Nunc malesuada ultricies eros ut faucibus. Aliquam erat volutpat. Nulla nec feugiat risus. Vivamus iaculis dui aliquet ante ultricies feugiat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus nec pretium velit, sit amet consectetur ante. Praesent porttitor ex eget fermentum mattis.',
+								'wp-modern-settings-page-boilerplate'
+							)}
+						</Text>
+					</CardBody>
 				</CardBody>
 				<CardBody></CardBody>
 				<CardDivider />
