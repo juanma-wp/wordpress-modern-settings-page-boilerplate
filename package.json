@@ -38,6 +38,7 @@
     "@wordpress/scripts": "25.2.0",
     "deep-clone": "^3.0.3",
     "dotenv": "^16.0.3",
+    "effector-logger": "^0.15.0",
     "postcss": "^8.4.21",
     "postcss-import": "^15.1.0",
     "postcss-preset-env": "^7.8.3",
